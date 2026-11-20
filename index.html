@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Presupuesto de Viaje | Simón Canessa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="calc-card">
+        <span class="badge-top">HERRAMIENTA INTERACTIVA</span>
+        <h1 class="h3 fw-bold mt-1 mb-2">Calculadora de Presupuesto de Viaje</h1>
+        <p class="text-secondary small mb-4">Ingresá los datos de tu viaje para saber cuánto podés gastar en cada comida sin pasarte del presupuesto.</p>
+
+        <form id="tripForm">
+            <div class="mb-3">
+                <label for="dias" class="form-label fw-semibold">Cantidad de días del viaje</label>
+                <input type="number" class="form-control" id="dias" placeholder="Ej: 7" min="1" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="presupuesto" class="form-label fw-semibold">Presupuesto máximo total ($)</label>
+                <input type="number" class="form-control" id="presupuesto" placeholder="Ej: 140000" min="1" step="any" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="comidasPorDia" class="form-label fw-semibold">Comidas por día</label>
+                <input type="number" class="form-control" id="comidasPorDia" value="3" min="1" max="10" required>
+            </div>
+
+            <button type="submit" class="btn btn-calc">Calcular presupuesto</button>
+        </form>
+
+        <div id="resultado" class="result-box text-center">
+            <p class="text-secondary small mb-1">Podés gastar hasta</p>
+            <div class="amount-highlight" id="gastoPorComida">$0.00</div>
+            <p class="fw-semibold mb-2">en cada comida</p>
+            <hr class="border-secondary my-2">
+            <p class="text-secondary small mb-0" id="detalleTotal"></p>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('tripForm');
+        const resultadoBox = document.getElementById('resultado');
+        const gastoPorComidaEl = document.getElementById('gastoPorComida');
+        const detalleTotalEl = document.getElementById('detalleTotal');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const dias = parseInt(document.getElementById('dias').value);
+            const presupuesto = parseFloat(document.getElementById('presupuesto').value);
+            const comidasPorDia = parseInt(document.getElementById('comidasPorDia').value);
+
+            const totalComidas = dias * comidasPorDia;
+            const gastoPorComida = presupuesto / totalComidas;
+
+            gastoPorComidaEl.textContent = '$' + gastoPorComida.toFixed(2);
+            detalleTotalEl.textContent = `Distribuido en ${totalComidas} comidas totales durante ${dias} ${dias === 1 ? 'día' : 'días'}.`;
+            resultadoBox.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
